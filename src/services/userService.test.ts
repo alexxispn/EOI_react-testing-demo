@@ -4,6 +4,7 @@ const mockedSuccessResponse = '::mockedSuccessResponse::';
 const mockedFetch = {
     json: () => Promise.resolve(mockedSuccessResponse),
     status: 200,
+
 };
 
 // @ts-ignore
