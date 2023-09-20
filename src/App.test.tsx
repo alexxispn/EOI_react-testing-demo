@@ -1,67 +1,38 @@
 import React from 'react'
-import { render, screen, waitFor, act } from '@testing-library/react'
-import App from './App'
-import userEvent from '@testing-library/user-event'
+import { render, screen } from '@testing-library/react';
+import App from './App';
+import { UsersList } from './components/UsersList';
+import { useUsers } from './hooks/useUsers';
+import userEvent from '@testing-library/user-event';
+
+jest.mock('./components/UsersList', () => ({
+    UsersList: jest.fn(() => {
+        return <div>::UserList::</div>
+    })
+}))
+
+const mockHandleAddUser = jest.fn()
+
+jest.mock('./hooks/useUsers', () => ({
+    useUsers: jest.fn(() => ({
+        users: ['::user1::'],
+        handleAddUser: mockHandleAddUser
+    }))
+}))
 
 describe("App", () => {
-    describe("users list", () => {
-        test("should render with five users", async () => {
-            render(<App />)
-            await waitFor(() => {
-                const users = screen.getAllByRole("listitem")
-                expect(users.length).toBe(5)
-            })
-        })
+    test("should call UserList component", () => {
+        render(<App />)
+        expect(useUsers).toBeCalled()
+        expect(UsersList).toBeCalled()
+        expect(UsersList).toBeCalledWith({users: ['::user1::']}, {})
+        expect(screen.getByText('::UserList::')).toBeInTheDocument()
     })
-    describe("addButton", () => {
-        test("should render a new user when we click", async () => {
-            render(<App />)
-            const addButton = screen.getByText('Add User');
-            await waitFor(async () => {
-                await userEvent.click(addButton)
-                const users = screen.getAllByRole("listitem")
-                expect(users.length).toBe(6)
-            })
-        })
-        test("should render a maximum of 10 users", async () => {
-            render(<App />)
-            const addButton = screen.getByText('Add User');
-            await waitFor(async () => {
-                await userEvent.click(addButton)
 
-                const users = screen.getAllByRole("listitem")
-                expect(users.length).toBe(6)
-            })
-            await waitFor(async () => {
-                await userEvent.click(addButton)
-
-                const users = screen.getAllByRole("listitem")
-                expect(users.length).toBe(7)
-            })
-            await waitFor(async () => {
-                await userEvent.click(addButton)
-
-                const users = screen.getAllByRole("listitem")
-                expect(users.length).toBe(8)
-            })
-            await waitFor(async () => {
-                await userEvent.click(addButton)
-
-                const users = screen.getAllByRole("listitem")
-                expect(users.length).toBe(9)
-            })
-            await waitFor(async () => {
-                await userEvent.click(addButton)
-
-                const users = screen.getAllByRole("listitem")
-                expect(users.length).toBe(10)
-            })
-            await waitFor(async () => {
-                await userEvent.click(addButton)
-
-                const users = screen.getAllByRole("listitem")
-                expect(users.length).toBe(10)
-            })
-        })
+    test("should be able to click on button and call handleAddUser", () => {
+        render(<App />)
+        const button = screen.getByText('Add User')
+        userEvent.click(button)
+        expect(mockHandleAddUser).toBeCalled()
     })
 })

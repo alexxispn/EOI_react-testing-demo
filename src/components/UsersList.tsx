@@ -1,7 +1,5 @@
 import { User } from "../interfaces/User"
 
-// const users: Promise<User[]> = getUsers()
-
 export const UsersList = ({ users }: { users: User[] }) => {
 
   return (

@@ -1,11 +1,10 @@
-import React from 'react';
-import './App.css';
-import { UsersList } from './components/UsersList';
-import { useUsers } from './hooks/useUsers';
+import React from 'react'
+import './App.css'
+import { UsersList } from './components/UsersList'
+import { useUsers } from './hooks/useUsers'
 
 function App() {
-  const { users, handleAddUser } = useUsers();
-
+  const { users, handleAddUser } = useUsers()
 
   return (
     <>
@@ -14,7 +13,7 @@ function App() {
         Add User
       </button>
     </>
-  );
+  )
 }
 
-export default App;
+export default App
