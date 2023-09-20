@@ -20,6 +20,6 @@ describe('getUsers', () => {
         const fetchCall = await getUsers();
 
         expect(global.fetch).toHaveBeenCalledTimes(1);
-        expect(fetchCall).toEqual(mockedFetch);
+        expect(fetchCall).toEqual(mockedSuccessResponse);
     });
 });

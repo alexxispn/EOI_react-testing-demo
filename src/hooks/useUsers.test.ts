@@ -22,8 +22,6 @@ describe('useUsers', () => {
         const { users: _users } = result.current
         expect(_users).toEqual([]);
     })
-
-
 });
 
 

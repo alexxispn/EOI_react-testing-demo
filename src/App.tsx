@@ -4,10 +4,16 @@ import { UsersList } from './components/UsersList';
 import { useUsers } from './hooks/useUsers';
 
 function App() {
-  const { users } = useUsers();
+  const { users, handleAddUser } = useUsers();
+
 
   return (
-    <UsersList users={users} />
+    <>
+      <UsersList users={users} />
+      <button onClick={handleAddUser}>
+        Add User
+      </button>
+    </>
   );
 }
 
